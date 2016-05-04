@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <style>
+        form {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 50%;
+        }
+        
+        form input {
+            border: 0;
+            background-color: #C7D9DC;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+        
+        form button {
+            width: 9%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+        }
+        
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #messages li {
+            padding: 5px 10px;
+        }
+        
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+        
+        .usernamesidebar: {
+            font-size: 20px;
+        }
+        
+        .usernamesidebar:nth-child(odd) {
+            color: aquamarine;
+        }
+        
+        .usernamesidebar:nth-child(even) {
+            color: aliceblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        CASablanka!
+                    </a>
+                </li>
+
+
+
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        Welcome to Chat world!
+
+                        <ul id="messages"></ul>
+                        <form action="">
+                            <input id="m" autocomplete="off" />
+                            <button>Send</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        socket.on('connect', function () {
+            // call the server-side function 'adduser' and send one parameter (value of prompt)
+            nickname = prompt("what is your nickname");
+            socket.emit('join', nickname);
+
+        });
+
+
+        $('form').submit(function () {
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
+        });
+        socket.on('chat message', function (msg) {
+            $('#messages').append($('<li>').html(msg));
+        });
+
+        socket.on('userlist', function (userlist) {
+            $('.sidebar-nav li').not('li:first').remove();
+            $.each(userlist, function (index, value) {
+                $('.sidebar-nav').append($('<li class="usernamesidebar">').html(value));
+            });
+        });
+    </script>
+
+</body>
+
+</html>
