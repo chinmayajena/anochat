@@ -40,7 +40,7 @@ io.on('connection', function(socket) {
         console.log(name);
         users.push(name);
         socket.nickname = name;
-        io.emit('chat message', 'Hello ' + name)
+        io.emit('chat message', 'Hello ' + name + '. Welcome to OpenBook. This is an <b>Anonymous Chat</b>! Be open to the world!')
 
         // attempt to clean up
         socket.once('disconnect', function() {
