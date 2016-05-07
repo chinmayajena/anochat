@@ -67,7 +67,7 @@
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
-    color: #999999;
+    color: black;
 }
 
 .sidebar-nav li a:hover {
@@ -85,10 +85,13 @@
     height: 65px;
     font-size: 18px;
     line-height: 60px;
+    background-color: crimson;
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #999999;
+    color: white;
+    font-weight: bold;
+    align-content: center;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
